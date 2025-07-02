@@ -1,9 +1,5 @@
 const allBtn = document.querySelectorAll("button");
 const h2 = document.querySelector("#lvl");
-const upperLeft = document.querySelector(".upper-left");
-const upperRight = document.querySelector(".upper-right");
-const bottomLeft = document.querySelector(".bottom-left");
-const bottomRight = document.querySelector(".bottom-right");
 const resetBtn = document.querySelector(".reset");
 
 let gameSeq = [];
@@ -15,8 +11,7 @@ let score = 0;
 let btns = ['upper-left', 'upper-right', 'bottom-left', 'bottom-right'];
 
 resetBtn.addEventListener("click", () => {
-    reset();
-    h2.innerText = `Game Reset. Press any key to start `;
+    reset(`Game Reset. Press any key to start `);
 });
 
 document.addEventListener("keypress", () => {
@@ -31,12 +26,14 @@ let levelup = () => {
     level++;
     h2.innerText = `Level ${level}`;
 
-    let randInd = Math.floor(Math.random() * 3);
+    let randInd = Math.floor(Math.random() * 4);
     let randBox = btns[randInd];
     let selectedBtn = document.querySelector(`.${randBox}`);
     gameSeq.push(selectedBtn);
     buttonFlash(selectedBtn);
-    score += 10;
+    if (level > 1) {
+        score += 10;
+    }
 
 }
 
@@ -56,8 +53,7 @@ function check(ind) {
             score++;
         }
     } else {
-        h2.innerText = `Game Over!\nYour score is ${score}\nPress any key to restart`;
-        reset();
+        reset(`Game Over!\nYour score is ${score}\nPress any key to restart`);
     }
 }
 
@@ -73,10 +69,11 @@ allBtn.forEach(btn => {
 
 
 
-function reset() {
+function reset(message) {
     start = false;
     level = 0;
     score = 0;
     gameSeq = [];
     userSeq = [];
+    h2.innerText = message;
 }
